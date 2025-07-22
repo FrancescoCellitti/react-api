@@ -7,6 +7,7 @@ function App() {
   const url = ("https://lanciweb.github.io/demo/api/actors/")
   const [actorData, setActorData] = useState([])
   const [actressData, setActressData] = useState([])
+  const [allActor, setAllActor] = useState([])
 
   useEffect(() => {
     fetch(url)
@@ -26,19 +27,27 @@ function App() {
       })
   }, [])
 
+  useEffect(() => {
+    setAllActor(actorData.concat(actressData))
+  }, [actorData, actressData])
+
   return (
     <>
       <h1>Actor/Actress</h1>
       <div className="container">
+        <div  className="row mb-2">
+          {allActor.map((actor, index) => {
+            return (
 
-        {actorData.map((actor, index) => {
-          return (
-            <div className="row mb-2">
-              <div key={index} className="col-12">
-                <div className="card h-100" style={{ maxWidth: '540px;' }}>
+              <div key={index} className="col-6 mb-2">
+                <div className="card">
                   <div className="row g-0">
                     <div className="col-md-4">
-                      <img src={actor.image} className="img-fluid rounded-start" alt="..." />
+                      <img src={actor.image} className="img-fluid rounded-start" style={{
+                        width: '300px',
+                        height: '300px',
+                        objectFit: 'cover'
+                      }} alt="..." />
                     </div>
                     <div className="col-md-8">
                       <div className="card-body">
@@ -52,12 +61,12 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
 
-          )
 
-        })}
+            )
 
+          })}
+        </div>
       </div>
     </>
   )
