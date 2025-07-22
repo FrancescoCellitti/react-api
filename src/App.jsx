@@ -8,6 +8,7 @@ function App() {
   const [actorData, setActorData] = useState([])
   const [actressData, setActressData] = useState([])
   const [allActor, setAllActor] = useState([])
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetch(url)
@@ -31,12 +32,17 @@ function App() {
     setAllActor(actorData.concat(actressData))
   }, [actorData, actressData])
 
+  const filteredActors = allActor.filter(actor =>
+    actor.name.toLowerCase().includes(search.toLowerCase())
+  )
   return (
     <>
       <h1>Actor/Actress</h1>
       <div className="container">
-        <div  className="row mb-2">
-          {allActor.map((actor, index) => {
+        <input type="text" placeholder="Cerca per nome..." className="form-control mb-3" value={search} onChange={(e) => setSearch(e.target.value)} />
+
+        <div className="row mb-2">
+          {filteredActors.map((actor, index) => {
             return (
 
               <div key={index} className="col-6 mb-2">
